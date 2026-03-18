@@ -1,0 +1,1 @@
+#!/bin/bash# Build AppImage for OpenClaw Linux Desktop Appset -eAPPDIR="openclaw-linux.AppDir"# Build Rust GTK appcd ../srccargo build --releasecd ..# Prepare AppDir structuremkdir -p $APPDIR/usr/bincp src/target/release/openclaw-linux $APPDIR/usr/bin/# TODO: Add desktop file, icon, dependencies# Build AppImageappimagetool $APPDIR

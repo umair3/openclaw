@@ -1,0 +1,1 @@
+#!/bin/bashfakeroot dpkg-deb --build $DEBDIR# Build .deb# TODO: Add control file, desktop file, iconcp src/target/release/openclaw-linux $DEBDIR/usr/bin/mkdir -p $DEBDIR/usr/bin# Prepare deb structurecd ..cargo build --releasecd ../src# Build Rust GTK appDEBDIR="openclaw-linux-deb"set -e# Build .deb package for OpenClaw Linux Desktop App

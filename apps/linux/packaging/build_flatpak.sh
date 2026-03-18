@@ -1,0 +1,1 @@
+#!/bin/bash# Build Flatpak for OpenClaw Linux Desktop App# flatpak-builder --force-clean build-dir openclaw-linux-flatpak.json# Build Flatpak (example, requires flatpak-builder)# TODO: Create flatpak manifest, desktop file, iconcd ..cargo build --releasecd ../src# Build Rust GTK appset -e
