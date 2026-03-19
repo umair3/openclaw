@@ -101,6 +101,65 @@ Choose one:
 4. Security Layer
 5. Packaging
 
+
+---
+
+## UI Design Prompt (Screens)
+
+Design a modern, dark-themed Linux desktop app for OpenClaw, matching the layout and style in the provided screenshots:
+
+### 1. Gateway Connect (connect.png)
+On launch, show a centered, elevated card on a dark background.
+Top: OpenClaw mascot/logo, title "OpenClaw", subtitle "Gateway Dashboard".
+Three vertically stacked input fields:
+	- WebSocket URL (pre-filled, full-width, with validation and error display)
+	- Gateway Token (masked, toggle-eye icon to show/hide)
+	- Password (optional, masked, with helper text)
+Large, full-width "Connect" button in coral/red, rounded corners.
+Status box below button for connection feedback (error in red, success in green).
+"How to connect" section with numbered steps and code blocks for gateway setup and token retrieval.
+Small user/status icon in top-right corner for additional actions.
+All elements keyboard-accessible, visually spaced, matching the dark card style, colors, and spacing.
+
+### 2. Main App Layout (chat.png, overview-1.png, overview-2.png)
+Left sidebar: vertical navigation with sections for Chat, Control, Agent, Settings, Docs.
+Sidebar includes OpenClaw logo, app name, and version indicator at the bottom.
+Sidebar items: Chat, Overview, Channels, Instances, Sessions, Usage, Cron Jobs, Agents, Skills, Nodes, Config, Communications, Appearance, Automation, Docs.
+Active section highlighted with coral/red accent.
+Main content area:
+	- **Chat view**: 
+		- Top dropdowns for session and agent selection.
+		- Message history with agent/tool responses, warnings, and user messages.
+		- Message bubbles styled with rounded corners, agent/user avatars, and tool output blocks.
+		- Input bar at bottom: text entry, send button (coral/red), attachment and emoji icons.
+		- "New messages" indicator for unread messages.
+	- **Overview view**:
+		- Gateway Access card: WebSocket URL, Gateway Token, Password, Session Key, Language, Connect/Refresh buttons.
+		- Snapshot card: status (OK/attention), uptime, tick interval, last refresh, recent sessions, skills, jobs, cost.
+		- Attention card for warnings (skills with missing dependencies).
+		- Event log and gateway logs in split panels.
+		- Recent sessions listed as pill buttons.
+Top bar: search input, theme toggle, settings, help, and user avatar.
+Responsive layout: cards and panels adjust to window size, maintain spacing and alignment.
+Consistent dark palette: background (#0f1113), card (#191b1d), accent coral/red, error vivid red, success green, muted gray for secondary actions.
+All controls accessible, keyboard-first navigation, clear focus indicators.
+
+### 3. General UX
+Fast startup (<2s).
+Real-time streaming responses in chat.
+Inline validation and helper text for all inputs.
+Tool output and agent status clearly surfaced.
+Graceful error handling, offline-first, no root required.
+
+---
+
+**Implementation Notes**
+- Use GTK for native Linux UI.
+- All work in apps/linux directory.
+- Match spacing, colors, and widget hierarchy as in screenshots.
+- Provide accessibility labels and keyboard shortcuts.
+- Make sidebar and main panels modular for easy extension.
+
 ---
 
 ## 📦 Deliverables
