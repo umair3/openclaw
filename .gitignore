@@ -81,6 +81,8 @@ apps/ios/*.dSYM.zip
 # provisioning profiles (local)
 apps/ios/*.mobileprovision
 
+apps/linux/src/target/
+
 # Local untracked files
 .local/
 docs/.local/
