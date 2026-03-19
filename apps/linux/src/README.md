@@ -1,1 +1,20 @@
-# OpenClaw Linux App SourceThis directory contains the source code for the OpenClaw Linux desktop application.## ModulesSee parent README for full project details.---Run `cargo build --release` in this directory.## Build- `ipc_layer.rs` — IPC between UI/backend- `logs_module.rs` — Logs viewer- `config_manager.rs` — Config editor/validator- `plugin_manager.rs` — Plugin management- `gateway_client.rs` — Gateway integration- `ui.rs` — UI layer (GTK)- `mod.rs` — Module declarations- `main.rs` — Entry point
+# OpenClaw Linux App Source
+
+This directory contains the source code for the OpenClaw Linux desktop application.
+
+## Modules
+- `main.rs` — Entry point
+- `mod.rs` — Module declarations
+- `ui.rs` — UI layer (GTK)
+- `gateway_client.rs` — Gateway integration
+- `plugin_manager.rs` — Plugin management
+- `config_manager.rs` — Config editor/validator
+- `logs_module.rs` — Logs viewer
+- `ipc_layer.rs` — IPC between UI/backend
+
+## Build
+Run `cargo build --release` in this directory.
+
+---
+
+See parent README for full project details.
