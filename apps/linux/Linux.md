@@ -1,6 +1,16 @@
 ## Window Behavior
 
 By default, the app window opens in fullscreen size when launched.
+## Gateway Card and Sidebar Navigation
+
+- On launch, only the Gateway Connect card is shown, centered on a dark background. The sidebar is not visible at this stage.
+- After clicking the Connect button and a successful connection, the app transitions to the main screen.
+- The main screen displays the sidebar navigation and opens the Chat panel by default.
+- The sidebar and main panels are modular and visually separated.
+- The transition between screens uses a fade or slide animation for smooth UX.
+
+---
+
 ## Sidebar Structure
 
 The sidebar is organized into four main sections:

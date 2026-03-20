@@ -6,6 +6,8 @@ use gtk4::{
     ScrolledWindow, TextView,
 };
 use notify_rust::Notification;
+use std::rc::Rc;
+use std::cell::RefCell;
 
 // Handles main window, chat interface, tray, notifications
 pub fn launch_ui(app: &Application) {
@@ -355,10 +357,32 @@ pub fn launch_ui(app: &Application) {
     bottom_section.append(&docs_btn);
     bottom_section.append(&version_label);
     sidebar.append(&bottom_section);
-    // Layout: sidebar + main panel
-    let hbox = Box::new(Orientation::Horizontal, 0);
-    hbox.append(&sidebar);
-    hbox.append(&gateway_center);
-    window.set_child(Some(&hbox));
+    // State management for screen transitions
+    let show_gateway_card = Rc::new(RefCell::new(true));
+    let show_gateway_card_clone = show_gateway_card.clone();
+
+    // Connect button handler
+    let window_clone = window.clone();
+    let sidebar_clone = sidebar.clone();
+    let chat_section_clone = chat_section.clone();
+    connect_btn.connect_clicked(move |_| {
+        *show_gateway_card_clone.borrow_mut() = false;
+        let hbox = Box::new(Orientation::Horizontal, 0);
+        hbox.append(&sidebar_clone);
+        hbox.append(&chat_section_clone);
+        window_clone.set_child(Some(&hbox));
+    });
+
+    // Layout logic
+    if *show_gateway_card.borrow() {
+        // Show only gateway card, centered
+        window.set_child(Some(&gateway_center));
+    } else {
+        // Show sidebar and main panels (Chat by default)
+        let hbox = Box::new(Orientation::Horizontal, 0);
+        hbox.append(&sidebar);
+        hbox.append(&chat_section); // Use chat_section as placeholder for chat panel
+        window.set_child(Some(&hbox));
+    }
     window.show();
 }
