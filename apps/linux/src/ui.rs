@@ -84,11 +84,18 @@ pub fn launch_ui(app: &Application) {
 				margin: 16px 0 0 0;
 				padding: 8px 0 0 0;
 			}
-			entry, .input-field {
-				padding: 12px 16px;
-				border-radius: 8px;
-				margin: 8px 0;
-			}
+            entry, .input-field {
+                padding: 12px 16px;
+                border-radius: 8px;
+                margin: 8px 0;
+            }
+            .sidebar-section-label {
+                font-weight: bold;
+                font-size: 14px;
+                letter-spacing: 1px;
+                margin: 16px 0 8px 0;
+                color: #f2f2f2;
+            }
 		"#,
     );
     gtk4::StyleContext::add_provider_for_display(
