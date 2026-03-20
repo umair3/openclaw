@@ -18,6 +18,40 @@ pub fn launch_ui(app: &Application) {
             window, .main-bg {
                 background: #000000;
             }
+            .top-bar-bg {
+                background: linear-gradient(90deg, #ff3b30 0%, #ff6f61 100%);
+                padding: 0 32px;
+                min-height: 56px;
+                border-bottom: 2px solid #ff3b30;
+            }
+            .top-bar-breadcrumb {
+                color: #fff7e6;
+                font-size: 18px;
+                font-weight: bold;
+                margin-right: 24px;
+                text-shadow: 0 2px 8px #ff3b3080;
+            }
+            .top-bar-search {
+                background: #232526;
+                color: #fff;
+                border-radius: 8px;
+                padding: 8px 16px;
+                margin-left: 16px;
+                font-size: 14px;
+            }
+            .top-bar-switcher {
+                background: linear-gradient(90deg, #ff3b30 0%, #b22222 100%);
+                color: #fff;
+                border-radius: 8px;
+                margin-left: 16px;
+                font-size: 18px;
+                box-shadow: 0 2px 8px #ff3b3040;
+                transition: background 200ms, box-shadow 200ms;
+            }
+            .top-bar-switcher:hover {
+                background: linear-gradient(90deg, #b22222 0%, #ff3b30 100%);
+                box-shadow: 0 4px 16px #ff3b30cc;
+            }
             .sidebar-bg {
                 background: linear-gradient(180deg, #18191a 0%, #232526 100%);
                 padding: 24px 0 24px 0;
@@ -361,15 +395,54 @@ pub fn launch_ui(app: &Application) {
     let show_gateway_card = Rc::new(RefCell::new(true));
     let show_gateway_card_clone = show_gateway_card.clone();
 
+    // Top bar for main screen
+    let top_bar = Box::new(Orientation::Horizontal, 16);
+    top_bar.set_css_classes(&["top-bar-bg"]);
+    top_bar.set_height_request(56);
+    top_bar.set_halign(gtk4::Align::Fill);
+    top_bar.set_valign(gtk4::Align::Start);
+
+    // Breadcrumb (left)
+    let breadcrumb = Label::new(Some("OpenClaw > Chat"));
+    breadcrumb.set_css_classes(&["top-bar-breadcrumb"]);
+    breadcrumb.set_halign(gtk4::Align::Start);
+    breadcrumb.set_valign(gtk4::Align::Center);
+    top_bar.append(&breadcrumb);
+
+    // Spacer between breadcrumb and search
+    let top_bar_spacer = gtk4::Box::new(Orientation::Horizontal, 0);
+    top_bar_spacer.set_hexpand(true);
+    top_bar.append(&top_bar_spacer);
+
+    // Search bar (right)
+    let search_entry = Entry::new();
+    search_entry.set_placeholder_text(Some("Search"));
+    search_entry.set_css_classes(&["top-bar-search"]);
+    search_entry.set_width_request(220);
+    top_bar.append(&search_entry);
+
+    // System/theme switcher (far right)
+    let theme_switcher = Button::with_label("🌓");
+    theme_switcher.set_css_classes(&["top-bar-switcher"]);
+    theme_switcher.set_width_request(40);
+    theme_switcher.set_halign(gtk4::Align::End);
+    theme_switcher.set_valign(gtk4::Align::Center);
+    top_bar.append(&theme_switcher);
+
     // Connect button handler
     let window_clone = window.clone();
     let sidebar_clone = sidebar.clone();
     let chat_section_clone = chat_section.clone();
+    let top_bar_clone = top_bar.clone();
     connect_btn.connect_clicked(move |_| {
         *show_gateway_card_clone.borrow_mut() = false;
         let hbox = Box::new(Orientation::Horizontal, 0);
         hbox.append(&sidebar_clone);
-        hbox.append(&chat_section_clone);
+        // Main area: vertical box with top bar and chat panel
+        let main_area = Box::new(Orientation::Vertical, 0);
+        main_area.append(&top_bar_clone);
+        main_area.append(&chat_section_clone);
+        hbox.append(&main_area);
         window_clone.set_child(Some(&hbox));
     });
 
@@ -381,7 +454,11 @@ pub fn launch_ui(app: &Application) {
         // Show sidebar and main panels (Chat by default)
         let hbox = Box::new(Orientation::Horizontal, 0);
         hbox.append(&sidebar);
-        hbox.append(&chat_section); // Use chat_section as placeholder for chat panel
+        // Main area: vertical box with top bar and chat panel
+        let main_area = Box::new(Orientation::Vertical, 0);
+        main_area.append(&top_bar);
+        main_area.append(&chat_section); // Use chat_section as placeholder for chat panel
+        hbox.append(&main_area);
         window.set_child(Some(&hbox));
     }
     window.show();
