@@ -143,6 +143,9 @@ pub fn launch_ui(app: &Application) {
     how_to_connect.set_css_classes(&["helper-section"]);
     let gateway_card = Box::new(Orientation::Vertical, 16);
     gateway_card.set_css_classes(&["card-bg"]);
+    gateway_card.set_halign(gtk4::Align::Center);
+    gateway_card.set_valign(gtk4::Align::Center);
+    gateway_card.set_width_request(700); // Double the width
     gateway_card.append(&mascot_logo);
     gateway_card.append(&gateway_title);
     gateway_card.append(&gateway_subtitle);
