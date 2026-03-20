@@ -96,6 +96,34 @@ pub fn launch_ui(app: &Application) {
                 margin: 16px 0 8px 0;
                 color: #f2f2f2;
             }
+            .cmd-box {
+                background: #232526;
+                border-radius: 8px;
+                border: 1px solid #ff3b30;
+                padding: 8px 16px;
+                margin: 8px 0;
+                box-shadow: 0 2px 8px #ff3b3040;
+                align-items: center;
+            }
+            .play-btn {
+                background: linear-gradient(90deg, #ff3b30 0%, #b22222 100%);
+                color: #fff;
+                border-radius: 8px;
+                font-weight: bold;
+                margin-left: 16px;
+                padding: 2px 8px;
+                font-size: 12px;
+                min-width: 32px;
+                min-height: 24px;
+                max-width: 32px;
+                max-height: 24px;
+                box-shadow: 0 2px 8px #ff3b3040;
+                transition: background 200ms, box-shadow 200ms;
+            }
+            .play-btn:hover {
+                background: linear-gradient(90deg, #b22222 0%, #ff3b30 100%);
+                box-shadow: 0 4px 16px #ff3b30cc;
+            }
 		"#,
     );
     gtk4::StyleContext::add_provider_for_display(
@@ -137,10 +165,79 @@ pub fn launch_ui(app: &Application) {
     connect_btn.set_css_classes(&["coral-btn"]);
     let status_box = Label::new(Some("Status: Not connected"));
     status_box.set_css_classes(&["status-box"]);
-    let how_to_connect = Label::new(Some(
-        "How to connect:\n1. Start gateway\n2. Retrieve token\n3. Enter details above",
+    // How to connect section
+    let how_to_connect_box = Box::new(Orientation::Vertical, 8);
+    how_to_connect_box.set_halign(gtk4::Align::Start);
+    let how_heading = Label::new(Some("How to connect"));
+    how_heading.set_css_classes(&["helper-section-heading"]);
+    how_heading.set_markup("<b>How to connect</b>");
+    how_heading.set_halign(gtk4::Align::Start);
+    how_to_connect_box.append(&how_heading);
+
+    let step1 = Label::new(Some("1. Start the gateway on your host machine:"));
+    step1.set_css_classes(&["helper-section-point"]);
+    step1.set_halign(gtk4::Align::Start);
+    how_to_connect_box.append(&step1);
+    let cmd1_box = Box::new(Orientation::Horizontal, 8);
+    cmd1_box.set_css_classes(&["cmd-box"]);
+    cmd1_box.set_hexpand(true);
+    let cmd1 = Label::new(Some("openclaw gateway run"));
+    cmd1.set_css_classes(&["helper-section-cmd"]);
+    cmd1.set_markup("<tt>openclaw gateway run</tt>");
+    cmd1.set_halign(gtk4::Align::Start);
+    let play_btn1_spacer = gtk4::Box::new(Orientation::Horizontal, 0);
+    play_btn1_spacer.set_hexpand(true);
+    let play_btn1 = Button::with_label("▶");
+    play_btn1.set_css_classes(&["play-btn"]);
+    play_btn1.set_hexpand(false);
+    play_btn1.set_valign(gtk4::Align::Center);
+    play_btn1.set_width_request(32);
+    play_btn1.set_height_request(24);
+    cmd1_box.append(&cmd1);
+    cmd1_box.append(&play_btn1_spacer);
+    cmd1_box.append(&play_btn1);
+    how_to_connect_box.append(&cmd1_box);
+
+    let step2 = Label::new(Some("2. Get a tokenized dashboard URL:"));
+    step2.set_css_classes(&["helper-section-point"]);
+    step2.set_halign(gtk4::Align::Start);
+    how_to_connect_box.append(&step2);
+    let cmd2_box = Box::new(Orientation::Horizontal, 8);
+    cmd2_box.set_css_classes(&["cmd-box"]);
+    cmd2_box.set_hexpand(true);
+    let cmd2 = Label::new(Some("openclaw dashboard --no-open"));
+    cmd2.set_css_classes(&["helper-section-cmd"]);
+    cmd2.set_markup("<tt>openclaw dashboard --no-open</tt>");
+    cmd2.set_halign(gtk4::Align::Start);
+    let play_btn2_spacer = gtk4::Box::new(Orientation::Horizontal, 0);
+    play_btn2_spacer.set_hexpand(true);
+    let play_btn2 = Button::with_label("▶");
+    play_btn2.set_css_classes(&["play-btn"]);
+    play_btn2.set_hexpand(false);
+    play_btn2.set_valign(gtk4::Align::Center);
+    play_btn2.set_width_request(32);
+    play_btn2.set_height_request(24);
+    cmd2_box.append(&cmd2);
+    cmd2_box.append(&play_btn2_spacer);
+    cmd2_box.append(&play_btn2);
+    how_to_connect_box.append(&cmd2_box);
+
+    let step3 = Label::new(Some(
+        "3. Paste the WebSocket URL and token above, or open the tokenized URL directly.",
     ));
-    how_to_connect.set_css_classes(&["helper-section"]);
+    step3.set_css_classes(&["helper-section-point"]);
+    step3.set_halign(gtk4::Align::Start);
+    how_to_connect_box.append(&step3);
+
+    let docs_link = Label::new(Some(
+        "<span color='red'><a href='https://docs.openclaw.ai/gateway'>Read the docs →</a></span>",
+    ));
+    docs_link.set_css_classes(&["helper-section-link"]);
+    docs_link.set_halign(gtk4::Align::Start);
+    docs_link.set_markup(
+        "<span color='red'><a href='https://docs.openclaw.ai/gateway'>Read the docs →</a></span>",
+    );
+    how_to_connect_box.append(&docs_link);
     let gateway_card = Box::new(Orientation::Vertical, 16);
     gateway_card.set_css_classes(&["card-bg"]);
     gateway_card.set_halign(gtk4::Align::Center);
@@ -154,7 +251,7 @@ pub fn launch_ui(app: &Application) {
     gateway_card.append(&password_entry);
     gateway_card.append(&connect_btn);
     gateway_card.append(&status_box);
-    gateway_card.append(&how_to_connect);
+    gateway_card.append(&how_to_connect_box);
     // Center Gateway Card
     let gateway_center = Box::new(Orientation::Vertical, 0);
     gateway_center.set_halign(gtk4::Align::Center);

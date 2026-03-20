@@ -205,6 +205,23 @@ Graceful error handling, offline-first, no root required.
 
 ---
 
+## Command Play Button UI
+
+- Each command in the "How to connect" section is shown inside a horizontal box with a coral/red border and dark background.
+- The play button (▶) is placed at the far right inside the box, visually separated from the command text.
+- The play button is half the previous size (32x24px), with smaller font and padding.
+- The button uses coral/red gradient, white text, rounded corners, and shadow on hover.
+- The command box and play button are keyboard-accessible and visually spaced for clarity.
+
+Example:
+
+| openclaw gateway run         [▶] |
+| openclaw dashboard --no-open [▶] |
+
+The play button does not execute the command, but is visually styled and placed for future integration.
+
+---
+
 **Implementation Notes**
 - Use GTK for native Linux UI.
 - All work in apps/linux directory.
