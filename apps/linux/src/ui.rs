@@ -6,8 +6,8 @@ use gtk4::{
     ScrolledWindow, TextView,
 };
 use notify_rust::Notification;
-use std::rc::Rc;
 use std::cell::RefCell;
+use std::rc::Rc;
 
 // Handles main window, chat interface, tray, notifications
 pub fn launch_ui(app: &Application) {
