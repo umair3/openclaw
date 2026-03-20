@@ -1,3 +1,6 @@
+## Window Behavior
+
+By default, the app window opens in fullscreen size when launched.
 ## Sidebar Structure
 
 The sidebar is organized into four main sections:

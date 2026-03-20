@@ -110,6 +110,7 @@ pub fn launch_ui(app: &Application) {
         .default_width(1100)
         .default_height(700)
         .build();
+    window.fullscreen();
     // Gateway Connect Card
     // Load mascot_logo from path relative to executable for portability
     use std::env;
