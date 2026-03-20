@@ -1,3 +1,38 @@
+## Sidebar Structure
+
+The sidebar is organized into four main sections:
+
+**CHAT**
+- Chat
+
+**CONTROL**
+- Overview
+- Channels
+- Instances
+- Sessions
+- Usage
+- Cron Jobs
+
+**AGENT**
+- Agents
+- Skills
+- Nodes
+
+**SETTINGS**
+- Config
+- Communications
+- Appearance
+- Automation
+- Infrastructure
+- AI & Agents
+- Debug
+- Logs
+
+At the bottom of the sidebar, separated by a horizontal greyish line, are:
+- Docs
+- Version
+
+All sections except Docs and Version are scrollable in the sidebar. Docs and Version remain fixed at the bottom.
 # 🧠 Prompt: Build a Linux Desktop App for OpenClaw
 
 ## Context

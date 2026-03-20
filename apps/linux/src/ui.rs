@@ -13,22 +13,24 @@ pub fn launch_ui(app: &Application) {
     let provider = gtk4::CssProvider::new();
     provider.load_from_data(
         r#"
-			window, .main-bg {
-				background: #000000;
-			}
-			.sidebar-bg {
-				background: linear-gradient(180deg, #18191a 0%, #232526 100%);
-				padding: 24px 0 24px 0;
-				margin: 0 24px 0 0;
-			}
-			.sidebar-nav-btn {
-				color: #fff;
-				background: transparent;
-				border-radius: 8px;
-				margin: 8px 0;
-				padding: 12px 20px;
-				transition: background 200ms, color 200ms, box-shadow 200ms;
-			}
+            window, .main-bg {
+                background: #000000;
+            }
+            .sidebar-bg {
+                background: linear-gradient(180deg, #18191a 0%, #232526 100%);
+                padding: 24px 0 24px 0;
+                margin: 0 24px 0 0;
+                min-width: 320px;
+                max-width: 340px;
+            }
+            .sidebar-nav-btn {
+                color: #fff;
+                background: transparent;
+                border-radius: 8px;
+                margin: 8px 16px;
+                padding: 12px 24px;
+                transition: background 200ms, color 200ms, box-shadow 200ms;
+            }
 			.sidebar-nav-btn:hover {
 				background: linear-gradient(90deg, #ff3b30 0%, #b22222 100%);
 				color: #fff;
@@ -150,46 +152,101 @@ pub fn launch_ui(app: &Application) {
     // Sidebar Navigation (modular, highlight active)
     let sidebar = Box::new(Orientation::Vertical, 16);
     sidebar.set_css_classes(&["sidebar-bg"]);
-    let logo = gtk4::Image::from_file(mascot_logo_path); // High-res, transparent logo for dark BG
+    let logo = gtk4::Image::from_file(mascot_logo_path);
+    logo.set_pixel_size(48);
     let app_name = Label::new(Some("OpenClaw"));
     app_name.set_css_classes(&["sidebar-app-name"]);
-    let version = Label::new(Some("v2026.3.20"));
-    version.set_css_classes(&["sidebar-version"]);
     sidebar.append(&logo);
     sidebar.append(&app_name);
 
-    // Navigation items (all required sections)
-    let nav_items = vec![
-        "Chat",
+    // Scrollable section container
+    let scrollable_container = gtk4::ScrolledWindow::new();
+    scrollable_container.set_vexpand(true);
+    let scroll_content = Box::new(Orientation::Vertical, 12);
+
+    // Section: CHAT
+    let chat_section = Box::new(Orientation::Vertical, 8);
+    let chat_label = Label::new(Some("CHAT"));
+    chat_label.set_css_classes(&["sidebar-section-label"]);
+    chat_section.append(&chat_label);
+    let chat_btn = Button::with_label("Chat");
+    chat_btn.set_css_classes(&["sidebar-nav-btn", "sidebar-nav-active"]);
+    chat_section.append(&chat_btn);
+    scroll_content.append(&chat_section);
+
+    // Section: CONTROL
+    let control_section = Box::new(Orientation::Vertical, 8);
+    let control_label = Label::new(Some("CONTROL"));
+    control_label.set_css_classes(&["sidebar-section-label"]);
+    control_section.append(&control_label);
+    let control_items = vec![
         "Overview",
         "Channels",
         "Instances",
         "Sessions",
         "Usage",
         "Cron Jobs",
-        "Agents",
-        "Skills",
-        "Nodes",
+    ];
+    for item in control_items {
+        let btn = Button::with_label(item);
+        btn.set_css_classes(&["sidebar-nav-btn"]);
+        control_section.append(&btn);
+    }
+    scroll_content.append(&control_section);
+
+    // Section: AGENT
+    let agent_section = Box::new(Orientation::Vertical, 8);
+    let agent_label = Label::new(Some("AGENT"));
+    agent_label.set_css_classes(&["sidebar-section-label"]);
+    agent_section.append(&agent_label);
+    let agent_items = vec!["Agents", "Skills", "Nodes"];
+    for item in agent_items {
+        let btn = Button::with_label(item);
+        btn.set_css_classes(&["sidebar-nav-btn"]);
+        agent_section.append(&btn);
+    }
+    scroll_content.append(&agent_section);
+
+    // Section: SETTINGS
+    let settings_section = Box::new(Orientation::Vertical, 8);
+    let settings_label = Label::new(Some("SETTINGS"));
+    settings_label.set_css_classes(&["sidebar-section-label"]);
+    settings_section.append(&settings_label);
+    let settings_items = vec![
         "Config",
         "Communications",
         "Appearance",
         "Automation",
-        "Docs",
+        "Infrastructure",
+        "AI & Agents",
+        "Debug",
+        "Logs",
     ];
-    for (i, item) in nav_items.iter().enumerate() {
-        let nav_btn = Button::with_label(item);
-        nav_btn.set_css_classes(&["sidebar-nav-btn"]);
-        // Highlight the first item (Chat) as active for now
-        if i == 0 {
-            nav_btn.add_css_class("sidebar-nav-active");
-        }
-        sidebar.append(&nav_btn);
+    for item in settings_items {
+        let btn = Button::with_label(item);
+        btn.set_css_classes(&["sidebar-nav-btn"]);
+        settings_section.append(&btn);
     }
-    // Spacer to push version to bottom
-    let sidebar_spacer = gtk4::Box::new(Orientation::Vertical, 0);
-    sidebar_spacer.set_vexpand(true);
-    sidebar.append(&sidebar_spacer);
-    sidebar.append(&version);
+    scroll_content.append(&settings_section);
+
+    scrollable_container.set_child(Some(&scroll_content));
+    sidebar.append(&scrollable_container);
+
+    // Separator line
+    let separator = gtk4::Box::new(Orientation::Horizontal, 0);
+    separator.set_css_classes(&["sidebar-separator"]);
+    separator.set_height_request(2);
+    sidebar.append(&separator);
+
+    // Fixed bottom section: Docs and Version
+    let bottom_section = Box::new(Orientation::Vertical, 8);
+    let docs_btn = Button::with_label("Docs");
+    docs_btn.set_css_classes(&["sidebar-nav-btn"]);
+    let version_label = Label::new(Some("Version: v2026.3.20"));
+    version_label.set_css_classes(&["sidebar-version"]);
+    bottom_section.append(&docs_btn);
+    bottom_section.append(&version_label);
+    sidebar.append(&bottom_section);
     // Layout: sidebar + main panel
     let hbox = Box::new(Orientation::Horizontal, 0);
     hbox.append(&sidebar);
