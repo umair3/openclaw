@@ -79,7 +79,12 @@ Choose one:
 ## 🎨 UX Requirements
 - Fast startup (<2s)
 - Keyboard-first navigation
-- Dark mode
+- Dark mode (pure black background: #0f1113 or #000000)
+- Use red (#ff3b30/coral) and white (#ffffff) as primary accent and text colors everywhere else
+- Use gradients in shades of the same color for backgrounds, buttons, and cards wherever possible (e.g., sidebar, active nav, buttons)
+- Add shadows to cards and buttons on hover for depth and feedback
+- Logo must be high-resolution, with transparent background, and visually optimized for dark backgrounds
+- Add subtle animations for transitions, button hovers, and panel switching (e.g., fade, slide, scale)
 - Real-time streaming responses
 
 ---
@@ -106,7 +111,14 @@ Choose one:
 
 ## UI Design Prompt (Screens)
 
-Design a modern, dark-themed Linux desktop app for OpenClaw, matching the layout and style in the provided screenshots:
+Design a modern, dark-themed Linux desktop app for OpenClaw, matching the layout and style in the provided screenshots, with the following additional visual requirements:
+
+- The app background must be pure black ( #0f1113 or #000000).
+- All UI elements (text, icons, borders) should use white ( #ffffff) and red/coral ( #ff3b30) as primary colors.
+- Use gradients in shades of the same color for backgrounds, buttons, and cards wherever possible (e.g., sidebar, active nav, buttons).
+- Add shadows to cards and buttons on hover for depth and feedback.
+- Logo must be high-resolution, with transparent background, and visually optimized for dark backgrounds.
+- Add subtle animations for transitions, button hovers, and panel switching (e.g., fade, slide, scale).
 
 ### 1. Gateway Connect (connect.png)
 On launch, show a centered, elevated card on a dark background.
