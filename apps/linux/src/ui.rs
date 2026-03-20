@@ -80,11 +80,15 @@ pub fn launch_ui(app: &Application) {
 			}
 			.sidebar-bg {
 				background: linear-gradient(180deg, #18191a 0%, #232526 100%);
+				padding: 24px 0 24px 0;
+				margin: 0 24px 0 0;
 			}
 			.sidebar-nav-btn {
 				color: #fff;
 				background: transparent;
 				border-radius: 8px;
+				margin: 8px 0;
+				padding: 12px 20px;
 				transition: background 200ms, color 200ms, box-shadow 200ms;
 			}
 			.sidebar-nav-btn:hover {
@@ -101,12 +105,15 @@ pub fn launch_ui(app: &Application) {
 			}
 			.sidebar-app-name, .sidebar-version {
 				color: #fff;
+				margin: 12px 0;
 			}
 			.card-bg {
 				background: linear-gradient(180deg, #191b1d 0%, #232526 100%);
 				border-radius: 18px;
 				box-shadow: 0 4px 32px rgba(0,0,0,0.4);
 				color: #fff;
+				margin: 24px;
+				padding: 32px 32px 24px 32px;
 				transition: box-shadow 300ms;
 			}
 			.card-bg:hover {
@@ -117,6 +124,8 @@ pub fn launch_ui(app: &Application) {
 				color: #fff;
 				border-radius: 12px;
 				font-weight: bold;
+				margin: 16px 0 0 0;
+				padding: 14px 0;
 				transition: background 200ms, box-shadow 200ms;
 			}
 			.coral-btn:hover {
@@ -127,9 +136,18 @@ pub fn launch_ui(app: &Application) {
 				color: #fff;
 				background: #191b1d;
 				border-radius: 8px;
+				margin: 16px 0 0 0;
+				padding: 10px 16px;
 			}
 			.helper-section {
 				color: #fff;
+				margin: 16px 0 0 0;
+				padding: 8px 0 0 0;
+			}
+			entry, .input-field {
+				padding: 12px 16px;
+				border-radius: 8px;
+				margin: 8px 0;
 			}
 		"#);
 		gtk4::StyleContext::add_provider_for_display(
@@ -140,12 +158,20 @@ pub fn launch_ui(app: &Application) {
 	// Main window
 	let window = ApplicationWindow::builder()
 		.application(app)
-		.title("OpenClaw Linux Agent")
+		.title("OpenClaw Linux Desktop App")
 		.default_width(1100)
 		.default_height(700)
 		.build();
 	// Gateway Connect Card
-	let mascot_logo = gtk4::Image::from_file("/path/to/logo.png"); // Placeholder path
+	 // Load mascot_logo from path relative to executable for portability
+	 use std::env;
+	 use std::path::{Path, PathBuf};
+	 let exe_path = env::current_exe().unwrap_or_else(|_| PathBuf::from("."));
+	 let exe_dir = exe_path.parent().unwrap_or_else(|| Path::new("."));
+	 let asset_path = exe_dir.join("assets/touch-icon.png");
+	 let mascot_logo_path = asset_path.to_str().unwrap_or("assets/touch-icon.png");
+	 println!("Mascot logo path: {}", mascot_logo_path);
+	 let mascot_logo = gtk4::Image::from_file(mascot_logo_path);
 	let gateway_title = Label::new(Some("OpenClaw"));
 	gateway_title.set_css_classes(&["gateway-title"]);
 	let gateway_subtitle = Label::new(Some("Gateway Dashboard"));

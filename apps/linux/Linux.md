@@ -77,6 +77,7 @@ Choose one:
 ---
 
 ## 🎨 UX Requirements
+- All UI elements, cards, buttons, and sidebar must use generous margins and paddings for proper spacing and visual clarity. Follow modern desktop app spacing standards (e.g., 16-32px outer margins, 12-24px inner paddings).
 - Fast startup (<2s)
 - Keyboard-first navigation
 - Dark mode (pure black background: #0f1113 or #000000)
@@ -110,6 +111,7 @@ Choose one:
 ---
 
 ## UI Design Prompt (Screens)
+- All cards, buttons, sidebar, and input fields must have consistent margins and paddings for a clean, modern look. Use at least 16px margin between major sections and 12-24px padding inside cards and buttons.
 
 Design a modern, dark-themed Linux desktop app for OpenClaw, matching the layout and style in the provided screenshots, with the following additional visual requirements:
 
